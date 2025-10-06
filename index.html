@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#667eea">
+    <meta name="theme-color" content="#dc2626">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Expense Tracker">
+    <meta name="apple-mobile-web-app-title" content="Bhalu's Expenses">
     <meta name="description" content="Track your expenses and income easily">
-    <title> BHALU'S 💸</title>
+    <title>Expense Tracker</title>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='75' font-size='80'%3E💸%3C/text%3E%3C/svg%3E">
     <style>
         * {
@@ -27,7 +27,7 @@
         }
 
         .app-container {
-            max-width: 900px;
+            max-width: 1200px;
             margin: 0 auto;
             background: white;
             min-height: 100vh;
@@ -85,7 +85,7 @@
 
         .install-banner button {
             background: white;
-            color: #667eea;
+            color: #dc2626;
             border: none;
             padding: 10px 20px;
             border-radius: 8px;
@@ -138,9 +138,132 @@
             color: #ef4444;
         }
 
-        .form-section {
+        .calendar-container {
             padding: 20px;
             background: white;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .calendar-header h2 {
+            font-size: 1.3em;
+            color: #333;
+        }
+
+        .month-nav {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .month-nav button {
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .month-nav button:active {
+            transform: scale(0.95);
+        }
+
+        .current-month {
+            font-weight: 600;
+            color: #333;
+            min-width: 150px;
+            text-align: center;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .calendar-day-header {
+            text-align: center;
+            font-weight: 600;
+            color: #666;
+            padding: 10px 5px;
+            font-size: 0.85em;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+            background: white;
+        }
+
+        .calendar-day:hover {
+            border-color: #dc2626;
+            transform: scale(1.05);
+        }
+
+        .calendar-day.other-month {
+            opacity: 0.3;
+        }
+
+        .calendar-day.today {
+            border-color: #dc2626;
+            background: #fee;
+        }
+
+        .calendar-day.has-transactions {
+            background: linear-gradient(to bottom, white 60%, #dcfce7 60%);
+        }
+
+        .calendar-day.selected {
+            background: #dc2626;
+            color: white;
+            border-color: #dc2626;
+        }
+
+        .day-number {
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        .day-total {
+            font-size: 0.7em;
+            margin-top: 2px;
+            font-weight: 600;
+        }
+
+        .day-total.positive {
+            color: #10b981;
+        }
+
+        .day-total.negative {
+            color: #ef4444;
+        }
+
+        .form-section {
+            padding: 20px;
+            background: #f8f9fa;
+            border-top: 2px solid #e5e7eb;
+        }
+
+        .form-section h3 {
+            margin-bottom: 15px;
+            color: #333;
         }
 
         .form-group {
@@ -169,7 +292,7 @@
         .form-group input:focus,
         .form-group select:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #dc2626;
         }
 
         .form-buttons {
@@ -207,7 +330,7 @@
         .transactions-section {
             padding: 20px;
             padding-bottom: 80px;
-            background: #f8f9fa;
+            background: white;
         }
 
         .transactions-header {
@@ -219,60 +342,29 @@
             gap: 10px;
         }
 
-        .transactions-header h2 {
+        .transactions-header h3 {
             color: #333;
-            font-size: 1.3em;
-        }
-
-        .controls {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .filter-buttons {
-            display: flex;
-            gap: 8px;
-            background: white;
-            padding: 4px;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .filter-btn {
-            padding: 8px 14px;
-            border: none;
-            background: transparent;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 0.85em;
-            font-weight: 600;
-            color: #666;
-        }
-
-        .filter-btn.active {
-            background: #667eea;
-            color: white;
+            font-size: 1.2em;
         }
 
         .export-btn {
             padding: 8px 16px;
-            background: #667eea;
+            background: #dc2626;
             color: white;
             border: none;
             border-radius: 8px;
             cursor: pointer;
             font-size: 0.85em;
             font-weight: 600;
-            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3);
         }
 
         .transaction-list {
             display: flex;
             flex-direction: column;
             gap: 10px;
+            max-height: 400px;
+            overflow-y: auto;
         }
 
         .transaction-item {
@@ -280,9 +372,9 @@
             justify-content: space-between;
             align-items: center;
             padding: 16px;
-            background: white;
+            background: #f8f9fa;
             border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
             transition: all 0.2s;
         }
 
@@ -355,12 +447,12 @@
 
         .empty-state {
             text-align: center;
-            padding: 60px 20px;
+            padding: 40px 20px;
             color: #999;
         }
 
         .empty-state-icon {
-            font-size: 4em;
+            font-size: 3em;
             margin-bottom: 10px;
         }
 
@@ -392,7 +484,7 @@
             }
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
             .balance-section {
                 grid-template-columns: 1fr;
                 gap: 10px;
@@ -414,13 +506,16 @@
                 grid-template-columns: 1fr;
             }
 
-            .transactions-header {
-                flex-direction: column;
-                align-items: stretch;
+            .calendar-grid {
+                gap: 4px;
             }
 
-            .controls {
-                justify-content: space-between;
+            .calendar-day {
+                font-size: 0.85em;
+            }
+
+            .month-nav {
+                flex-wrap: wrap;
             }
         }
     </style>
@@ -428,8 +523,8 @@
 <body>
     <div class="app-container">
         <div class="header">
-            <h1><span>💰</span> Expense Tracker</h1>
-            <p>Track your finances on the go</p>
+            <h1><span>💸</span> Expense Tracker</h1>
+            <!-- <p>Track your finances with calendar view</p> -->
             <div class="install-banner" id="installBanner">
                 <span>📱 Install this app for quick access!</span>
                 <button onclick="installApp()">Install</button>
@@ -451,7 +546,24 @@
             </div>
         </div>
 
+        <div class="calendar-container">
+            <div class="calendar-header">
+                <h2>Calendar</h2>
+                <div class="month-nav">
+                    <button onclick="previousMonth()">◀</button>
+                    <span class="current-month" id="currentMonth"></span>
+                    <button onclick="nextMonth()">▶</button>
+                </div>
+            </div>
+            <div class="calendar-grid" id="calendarGrid"></div>
+        </div>
+
         <div class="form-section">
+            <h3 id="formTitle">Add Transaction</h3>
+            <div class="form-group">
+                <label for="transactionDate">Date</label>
+                <input type="date" id="transactionDate">
+            </div>
             <div class="form-group">
                 <label for="description">Description</label>
                 <input type="text" id="description" placeholder="What did you spend on?">
@@ -464,6 +576,7 @@
                 <label for="category">Category</label>
                 <select id="category">
                     <option value="🍔 Food">🍔 Food</option>
+                    <option value="🏸 Badminton">🍔 Badminton</option>
                     <option value="🚗 Transport">🚗 Transport</option>
                     <option value="🛍️ Shopping">🛍️ Shopping</option>
                     <option value="🎬 Entertainment">🎬 Entertainment</option>
@@ -482,20 +595,13 @@
 
         <div class="transactions-section">
             <div class="transactions-header">
-                <h2>Transactions</h2>
-                <div class="controls">
-                    <div class="filter-buttons">
-                        <button class="filter-btn active" onclick="filterTransactions('all')">All</button>
-                        <button class="filter-btn" onclick="filterTransactions('income')">Income</button>
-                        <button class="filter-btn" onclick="filterTransactions('expense')">Expense</button>
-                    </div>
-                    <button class="export-btn" onclick="exportData()">📊 Export</button>
-                </div>
+                <h3 id="transactionsTitle">All Transactions</h3>
+                <button class="export-btn" onclick="exportData()">📊 Export CSV</button>
             </div>
             <div class="transaction-list" id="transactionList">
                 <div class="empty-state">
                     <div class="empty-state-icon">📝</div>
-                    <p>No transactions yet<br>Add your first transaction above!</p>
+                    <p>No transactions yet<br>Select a date and add your first transaction!</p>
                 </div>
             </div>
         </div>
@@ -505,10 +611,10 @@
 
     <script>
         let transactions = [];
-        let currentFilter = 'all';
-        let deferredPrompt;
+        let currentDate = new Date();
+        let selectedDate = null;
 
-        // Data persistence using cookies
+        // Data persistence
         function saveData() {
             try {
                 const data = JSON.stringify(transactions);
@@ -543,10 +649,125 @@
             }, 2000);
         }
 
+        // Calendar functions
+        function renderCalendar() {
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            
+            document.getElementById('currentMonth').textContent = 
+                currentDate.toLocaleString('en-US', { month: 'long', year: 'numeric' });
+
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const daysInPrevMonth = new Date(year, month, 0).getDate();
+
+            const grid = document.getElementById('calendarGrid');
+            grid.innerHTML = '';
+
+            // Day headers
+            const dayHeaders = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            dayHeaders.forEach(day => {
+                const header = document.createElement('div');
+                header.className = 'calendar-day-header';
+                header.textContent = day;
+                grid.appendChild(header);
+            });
+
+            // Previous month days
+            for (let i = firstDay - 1; i >= 0; i--) {
+                const day = daysInPrevMonth - i;
+                const dayEl = createDayElement(day, year, month - 1, true);
+                grid.appendChild(dayEl);
+            }
+
+            // Current month days
+            const today = new Date();
+            for (let day = 1; day <= daysInMonth; day++) {
+                const isToday = day === today.getDate() && 
+                               month === today.getMonth() && 
+                               year === today.getFullYear();
+                const dayEl = createDayElement(day, year, month, false, isToday);
+                grid.appendChild(dayEl);
+            }
+
+            // Next month days
+            const remainingDays = 42 - (firstDay + daysInMonth);
+            for (let day = 1; day <= remainingDays; day++) {
+                const dayEl = createDayElement(day, year, month + 1, true);
+                grid.appendChild(dayEl);
+            }
+        }
+
+        function createDayElement(day, year, month, isOtherMonth, isToday = false) {
+            const dayEl = document.createElement('div');
+            dayEl.className = 'calendar-day';
+            
+            const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            
+            if (isOtherMonth) {
+                dayEl.classList.add('other-month');
+            }
+            
+            if (isToday) {
+                dayEl.classList.add('today');
+            }
+
+            if (selectedDate === dateStr) {
+                dayEl.classList.add('selected');
+            }
+
+            const dayTransactions = transactions.filter(t => t.date.startsWith(dateStr));
+            
+            if (dayTransactions.length > 0) {
+                dayEl.classList.add('has-transactions');
+                const total = dayTransactions.reduce((sum, t) => {
+                    return sum + (t.type === 'income' ? t.amount : -t.amount);
+                }, 0);
+
+                const totalEl = document.createElement('div');
+                totalEl.className = `day-total ${total >= 0 ? 'positive' : 'negative'}`;
+                totalEl.textContent = total >= 0 ? `+₹${Math.abs(total).toFixed(0)}` : `-₹${Math.abs(total).toFixed(0)}`;
+                dayEl.appendChild(totalEl);
+            }
+
+            const numberEl = document.createElement('div');
+            numberEl.className = 'day-number';
+            numberEl.textContent = day;
+            dayEl.insertBefore(numberEl, dayEl.firstChild);
+
+            dayEl.onclick = () => selectDate(dateStr);
+
+            return dayEl;
+        }
+
+        function selectDate(dateStr) {
+            selectedDate = dateStr;
+            document.getElementById('transactionDate').value = dateStr;
+            document.getElementById('formTitle').textContent = `Add Transaction for ${new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
+            renderCalendar();
+            displayTransactions();
+        }
+
+        function previousMonth() {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            renderCalendar();
+        }
+
+        function nextMonth() {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            renderCalendar();
+        }
+
         function addTransaction(type) {
             const desc = document.getElementById('description').value.trim();
             const amount = parseFloat(document.getElementById('amount').value);
             const category = document.getElementById('category').value;
+            const dateInput = document.getElementById('transactionDate').value;
+
+            if (!dateInput) {
+                showToast('⚠️ Select a date');
+                return;
+            }
 
             if (!desc) {
                 showToast('⚠️ Add description');
@@ -558,21 +779,26 @@
                 return;
             }
 
+            const transactionDate = new Date(dateInput + 'T12:00:00');
+            
             const transaction = {
                 id: Date.now(),
                 description: desc,
                 amount: amount,
                 category: category,
                 type: type,
-                date: new Date().toLocaleString('en-IN', { 
+                date: dateInput,
+                displayDate: transactionDate.toLocaleString('en-IN', { 
                     day: '2-digit', 
-                    month: 'short', 
+                    month: 'short',
+                    year: 'numeric',
                     hour: '2-digit', 
                     minute: '2-digit' 
                 })
             };
 
-            transactions.unshift(transaction);
+            transactions.push(transaction);
+            transactions.sort((a, b) => new Date(b.date) - new Date(a.date));
             
             document.getElementById('description').value = '';
             document.getElementById('amount').value = '';
@@ -591,28 +817,23 @@
             }
         }
 
-        function filterTransactions(filter) {
-            currentFilter = filter;
-            
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            
-            displayTransactions();
-        }
-
         function displayTransactions() {
             const list = document.getElementById('transactionList');
-            const filtered = currentFilter === 'all' 
-                ? transactions 
-                : transactions.filter(t => t.type === currentFilter);
+            let filtered = transactions;
+
+            if (selectedDate) {
+                filtered = transactions.filter(t => t.date === selectedDate);
+                document.getElementById('transactionsTitle').textContent = 
+                    `Transactions for ${new Date(selectedDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
+            } else {
+                document.getElementById('transactionsTitle').textContent = 'All Transactions';
+            }
 
             if (filtered.length === 0) {
                 list.innerHTML = `
                     <div class="empty-state">
                         <div class="empty-state-icon">📝</div>
-                        <p>${currentFilter === 'all' ? 'No transactions yet' : `No ${currentFilter} transactions`}</p>
+                        <p>${selectedDate ? 'No transactions for this date' : 'No transactions yet'}</p>
                     </div>
                 `;
                 return;
@@ -622,7 +843,7 @@
                 <div class="transaction-item">
                     <div class="transaction-info">
                         <div class="transaction-desc">${t.description}</div>
-                        <div class="transaction-category">${t.category} • ${t.date}</div>
+                        <div class="transaction-category">${t.category} • ${t.displayDate || t.date}</div>
                     </div>
                     <div class="transaction-right">
                         <div class="transaction-amount ${t.type}">
@@ -652,6 +873,7 @@
 
         function updateUI() {
             updateBalances();
+            renderCalendar();
             displayTransactions();
         }
 
@@ -677,6 +899,7 @@
         }
 
         // PWA Installation
+        let deferredPrompt;
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
@@ -695,7 +918,6 @@
                     deferredPrompt = null;
                 });
             } else {
-                // For iOS or browsers that don't support install
                 showToast('📱 Use browser menu to add to home screen');
             }
         }
@@ -707,9 +929,14 @@
 
         // Initialize
         loadData();
+        
+        // Set today's date by default
+        const today = new Date();
+        const todayStr = today.toISOString().split('T')[0];
+        document.getElementById('transactionDate').value = todayStr;
+        selectedDate = todayStr;
+        
         updateUI();
     </script>
 </body>
 </html>
-
-
