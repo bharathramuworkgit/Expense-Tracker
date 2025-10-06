@@ -2,94 +2,130 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#667eea">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Expense Tracker">
+    <meta name="description" content="Track your expenses and income easily">
     <title>Expense Tracker</title>
-    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkV4cGVuc2UgVHJhY2tlciIsCiAgInNob3J0X25hbWUiOiAiRXhwZW5zZXMiLAogICJzdGFydF91cmwiOiAiLyIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiI2ZmZmZmZiIsCiAgInRoZW1lX2NvbG9yIjogIiM2NjdlZWEiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUI0Yld4dWN6MGlhSFIwY0RvdkwzZDNkeTUzTXk1dmNtY3ZNakF3TUM5emRtY2lJSGRwWkhSb1BTSTFNVE1pSUdobGFXZG9kRDBpTlRFeklqNDhjbVZqZENCM2FXUjBhRDBpTlRFeklpQm9aV2xuYUhROUlqVXhNeUlnWm1sc2JEMGlJelkyTjJWbFlTSXZQanh3WVhSb0lHUTlJazB5TlRZZ01UazBZekV3TGpnZ01DQXhPUzQwSURndU5pQXhPUzQwSURFNWRpMDNOUzQwWXpBZ01UQXVPQzA0TGpZZ01Ua3VOREl0TVRrdU5DQTFNR002TFRFd0xqZ2dNQ0F4T1M0MElEZ3VOaUF4T1M0MElERTVkamMxTGpSak1DQXhNQzQ0SURndU5pQXhPUzQwSURFNUxqUWdNVGxUTWpZMkxqZ2dNVGswSURJMU5pQXhPVFI2SWk4K1BIUmxlSFFnZUQwaU1qVTJJaUI1UFNJME5UQWlJSFJsZUhRdFlXNWphRzl5UFNJL
-WJXbGtaR3hsSWlCbWFXeHNQU0ozYUdsMFpTSWdabTl1ZEMxemFYcGxQU0kyTUNJZ1ptOXVkQzEzWldsbmFIUTlJbUp2YkdRaVBqenZNRHd2ZEdWNGRENDhMM04yWno0PSIsCiAgICAgICJzaXplcyI6ICI1MTJ4NTEyIiwKICAgICAgInR5cGUiOiAiaW1hZ2Uvc3ZnK3htbCIKICAgIH0KICBdCn0=">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='75' font-size='80'%3E💰%3C/text%3E%3C/svg%3E">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 20px;
+            padding: 0;
+            overflow-x: hidden;
         }
 
-        .container {
+        .app-container {
             max-width: 900px;
             margin: 0 auto;
             background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            overflow: hidden;
+            min-height: 100vh;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
         }
 
         .header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 30px;
+            padding: 20px;
             text-align: center;
-            position: relative;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
+            font-size: 1.8em;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
-        .install-prompt {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 12px 20px;
-            border-radius: 8px;
-            margin-top: 15px;
+        .header p {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .install-banner {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 15px;
+            margin: 15px 0 0 0;
+            border-radius: 12px;
             display: none;
             align-items: center;
             justify-content: space-between;
+            gap: 10px;
+            animation: slideDown 0.3s ease;
         }
 
-        .install-prompt button {
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .install-banner button {
             background: white;
             color: #667eea;
             border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
+            padding: 10px 20px;
+            border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
+            font-size: 0.9em;
+            white-space: nowrap;
         }
 
         .balance-section {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            padding: 30px;
-            background: #f8f9fa;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            padding: 20px;
+            background: linear-gradient(to bottom, #f8f9fa, white);
         }
 
         .balance-card {
             background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px 15px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .balance-card:active {
+            transform: scale(0.98);
         }
 
         .balance-card h3 {
             color: #666;
-            font-size: 0.9em;
+            font-size: 0.75em;
             text-transform: uppercase;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
         }
 
         .balance-card .amount {
-            font-size: 2em;
+            font-size: 1.5em;
             font-weight: bold;
             color: #333;
         }
@@ -103,11 +139,12 @@ WJXbGtaR3hsSWlCbWFXeHNQU0ozYUdsMFpTSWdabTl1ZEMxemFYcGxQU0kyTUNJZ1ptOXVkQzEzWldsb
         }
 
         .form-section {
-            padding: 30px;
+            padding: 20px;
+            background: white;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .form-group label {
@@ -115,16 +152,18 @@ WJXbGtaR3hsSWlCbWFXeHNQU0ozYUdsMFpTSWdabTl1ZEMxemFYcGxQU0kyTUNJZ1ptOXVkQzEzWldsb
             margin-bottom: 8px;
             color: #333;
             font-weight: 600;
+            font-size: 0.9em;
         }
 
         .form-group input,
         .form-group select {
             width: 100%;
-            padding: 12px;
+            padding: 14px;
             border: 2px solid #e5e7eb;
-            border-radius: 8px;
+            border-radius: 12px;
             font-size: 1em;
             transition: border-color 0.3s;
+            background: white;
         }
 
         .form-group input:focus,
@@ -134,19 +173,25 @@ WJXbGtaR3hsSWlCbWFXeHNQU0ozYUdsMFpTSWdabTl1ZEMxemFYcGxQU0kyTUNJZ1ptOXVkQzEzWldsb
         }
 
         .form-buttons {
-            display: flex;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 10px;
+            margin-top: 20px;
         }
 
         .btn {
-            flex: 1;
-            padding: 14px;
+            padding: 16px;
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             font-size: 1em;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn:active {
+            transform: scale(0.97);
         }
 
         .btn-income {
@@ -154,63 +199,62 @@ WJXbGtaR3hsSWlCbWFXeHNQU0ozYUdsMFpTSWdabTl1ZEMxemFYcGxQU0kyTUNJZ1ptOXVkQzEzWldsb
             color: white;
         }
 
-        .btn-income:hover {
-            background: #059669;
-            transform: translateY(-2px);
-        }
-
         .btn-expense {
             background: #ef4444;
             color: white;
         }
 
-        .btn-expense:hover {
-            background: #dc2626;
-            transform: translateY(-2px);
-        }
-
         .transactions-section {
-            padding: 30px;
+            padding: 20px;
+            padding-bottom: 80px;
+            background: #f8f9fa;
         }
 
         .transactions-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             flex-wrap: wrap;
             gap: 10px;
         }
 
         .transactions-header h2 {
             color: #333;
+            font-size: 1.3em;
         }
 
-        .header-actions {
+        .controls {
             display: flex;
             gap: 10px;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         .filter-buttons {
             display: flex;
-            gap: 10px;
+            gap: 8px;
+            background: white;
+            padding: 4px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         .filter-btn {
-            padding: 8px 16px;
-            border: 2px solid #e5e7eb;
-            background: white;
-            border-radius: 6px;
+            padding: 8px 14px;
+            border: none;
+            background: transparent;
+            border-radius: 8px;
             cursor: pointer;
-            transition: all 0.3s;
-            font-size: 0.9em;
+            transition: all 0.2s;
+            font-size: 0.85em;
+            font-weight: 600;
+            color: #666;
         }
 
         .filter-btn.active {
             background: #667eea;
             color: white;
-            border-color: #667eea;
         }
 
         .export-btn {
@@ -218,53 +262,66 @@ WJXbGtaR3hsSWlCbWFXeHNQU0ozYUdsMFpTSWdabTl1ZEMxemFYcGxQU0kyTUNJZ1ptOXVkQzEzWldsb
             background: #667eea;
             color: white;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 0.9em;
+            font-size: 0.85em;
             font-weight: 600;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
         }
 
         .transaction-list {
-            max-height: 400px;
-            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
         .transaction-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px;
+            padding: 16px;
             background: white;
-            border: 2px solid #e5e7eb;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            transition: all 0.3s;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: all 0.2s;
         }
 
-        .transaction-item:hover {
-            border-color: #667eea;
-            transform: translateX(5px);
+        .transaction-item:active {
+            transform: scale(0.98);
         }
 
         .transaction-info {
             flex: 1;
+            min-width: 0;
         }
 
         .transaction-desc {
             font-weight: 600;
             color: #333;
             margin-bottom: 4px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .transaction-category {
-            font-size: 0.85em;
+            font-size: 0.8em;
             color: #666;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .transaction-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .transaction-amount {
-            font-size: 1.2em;
+            font-size: 1.1em;
             font-weight: bold;
-            margin-right: 15px;
+            white-space: nowrap;
         }
 
         .transaction-amount.income {
@@ -276,178 +333,213 @@ WJXbGtaR3hsSWlCbWFXeHNQU0ozYUdsMFpTSWdabTl1ZEMxemFYcGxQU0kyTUNJZ1ptOXVkQzEzWldsb
         }
 
         .delete-btn {
-            background: #ef4444;
-            color: white;
+            background: #fee;
+            color: #ef4444;
             border: none;
-            padding: 8px 12px;
-            border-radius: 6px;
+            padding: 8px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: all 0.3s;
+            font-size: 1.2em;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
         }
 
-        .delete-btn:hover {
-            background: #dc2626;
+        .delete-btn:active {
+            background: #ef4444;
+            color: white;
         }
 
         .empty-state {
             text-align: center;
-            padding: 40px;
+            padding: 60px 20px;
             color: #999;
         }
 
-        .save-indicator {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #10b981;
-            color: white;
-            padding: 12px 20px;
-            border-radius: 8px;
-            display: none;
-            animation: slideIn 0.3s ease;
+        .empty-state-icon {
+            font-size: 4em;
+            margin-bottom: 10px;
         }
 
-        @keyframes slideIn {
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            display: none;
+            align-items: center;
+            gap: 8px;
+            animation: toastIn 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes toastIn {
             from {
-                transform: translateY(100px);
                 opacity: 0;
+                transform: translateX(-50%) translateY(20px);
             }
             to {
-                transform: translateY(0);
                 opacity: 1;
+                transform: translateX(-50%) translateY(0);
             }
         }
 
         @media (max-width: 600px) {
-            .form-buttons {
-                flex-direction: column;
+            .balance-section {
+                grid-template-columns: 1fr;
+                gap: 10px;
             }
-            
+
+            .balance-card {
+                display: grid;
+                grid-template-columns: 1fr auto;
+                align-items: center;
+                text-align: left;
+                padding: 15px;
+            }
+
+            .balance-card h3 {
+                margin-bottom: 0;
+            }
+
+            .form-buttons {
+                grid-template-columns: 1fr;
+            }
+
             .transactions-header {
                 flex-direction: column;
-                align-items: flex-start;
+                align-items: stretch;
+            }
+
+            .controls {
+                justify-content: space-between;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="app-container">
         <div class="header">
-            <h1>💰 Expense Tracker</h1>
-            <p>Manage your finances with ease</p>
-            <div class="install-prompt" id="installPrompt">
-                <span>Install this app for quick access!</span>
+            <h1><span>💰</span> Expense Tracker</h1>
+            <p>Track your finances on the go</p>
+            <div class="install-banner" id="installBanner">
+                <span>📱 Install this app for quick access!</span>
                 <button onclick="installApp()">Install</button>
             </div>
         </div>
 
         <div class="balance-section">
             <div class="balance-card">
-                <h3>Total Balance</h3>
-                <div class="amount" id="totalBalance">₹0.00</div>
+                <h3>Balance</h3>
+                <div class="amount" id="totalBalance">₹0</div>
             </div>
             <div class="balance-card income">
                 <h3>Income</h3>
-                <div class="amount" id="totalIncome">₹0.00</div>
+                <div class="amount" id="totalIncome">₹0</div>
             </div>
             <div class="balance-card expense">
                 <h3>Expenses</h3>
-                <div class="amount" id="totalExpense">₹0.00</div>
+                <div class="amount" id="totalExpense">₹0</div>
             </div>
         </div>
 
         <div class="form-section">
             <div class="form-group">
                 <label for="description">Description</label>
-                <input type="text" id="description" placeholder="Enter description...">
+                <input type="text" id="description" placeholder="What did you spend on?">
             </div>
             <div class="form-group">
                 <label for="amount">Amount</label>
-                <input type="number" id="amount" placeholder="0.00" step="0.01">
+                <input type="number" id="amount" placeholder="0" step="0.01" inputmode="decimal">
             </div>
             <div class="form-group">
                 <label for="category">Category</label>
                 <select id="category">
-                    <option value="Food">Food</option>
-                    <option value="Transport">Transport</option>
-                    <option value="Shopping">Shopping</option>
-                    <option value="Entertainment">Entertainment</option>
-                    <option value="Bills">Bills</option>
-                    <option value="Salary">Salary</option>
-                    <option value="Other">Other</option>
+                    <option value="🍔 Food">🍔 Food</option>
+                    <option value="🚗 Transport">🚗 Transport</option>
+                    <option value="🛍️ Shopping">🛍️ Shopping</option>
+                    <option value="🎬 Entertainment">🎬 Entertainment</option>
+                    <option value="💡 Bills">💡 Bills</option>
+                    <option value="💼 Salary">💼 Salary</option>
+                    <option value="🏥 Health">🏥 Health</option>
+                    <option value="📚 Education">📚 Education</option>
+                    <option value="✨ Other">✨ Other</option>
                 </select>
             </div>
             <div class="form-buttons">
-                <button class="btn btn-income" onclick="addTransaction('income')">Add Income</button>
-                <button class="btn btn-expense" onclick="addTransaction('expense')">Add Expense</button>
+                <button class="btn btn-income" onclick="addTransaction('income')">💚 Add Income</button>
+                <button class="btn btn-expense" onclick="addTransaction('expense')">💸 Add Expense</button>
             </div>
         </div>
 
         <div class="transactions-section">
             <div class="transactions-header">
                 <h2>Transactions</h2>
-                <div class="header-actions">
+                <div class="controls">
                     <div class="filter-buttons">
                         <button class="filter-btn active" onclick="filterTransactions('all')">All</button>
                         <button class="filter-btn" onclick="filterTransactions('income')">Income</button>
                         <button class="filter-btn" onclick="filterTransactions('expense')">Expense</button>
                     </div>
-                    <button class="export-btn" onclick="exportData()">Export CSV</button>
+                    <button class="export-btn" onclick="exportData()">📊 Export</button>
                 </div>
             </div>
             <div class="transaction-list" id="transactionList">
-                <div class="empty-state">No transactions yet. Add your first transaction above!</div>
+                <div class="empty-state">
+                    <div class="empty-state-icon">📝</div>
+                    <p>No transactions yet<br>Add your first transaction above!</p>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="save-indicator" id="saveIndicator">✓ Data saved automatically</div>
+    <div class="toast" id="toast"></div>
 
     <script>
         let transactions = [];
         let currentFilter = 'all';
         let deferredPrompt;
 
-        // Load data from browser's indexed storage simulation
-        function loadData() {
-            const saved = getCookie('expenseData');
-            if (saved) {
-                try {
-                    transactions = JSON.parse(saved);
-                } catch (e) {
-                    transactions = [];
-                }
-            }
-        }
-
-        // Save data to browser cookies (works across sessions)
+        // Data persistence using cookies
         function saveData() {
-            setCookie('expenseData', JSON.stringify(transactions), 365);
-            showSaveIndicator();
-        }
-
-        function setCookie(name, value, days) {
-            const date = new Date();
-            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-            document.cookie = name + "=" + encodeURIComponent(value) + ";expires=" + date.toUTCString() + ";path=/";
-        }
-
-        function getCookie(name) {
-            const nameEQ = name + "=";
-            const ca = document.cookie.split(';');
-            for (let i = 0; i < ca.length; i++) {
-                let c = ca[i];
-                while (c.charAt(0) === ' ') c = c.substring(1, c.length);
-                if (c.indexOf(nameEQ) === 0) return decodeURIComponent(c.substring(nameEQ.length, c.length));
+            try {
+                const data = JSON.stringify(transactions);
+                document.cookie = `expenseData=${encodeURIComponent(data)};max-age=31536000;path=/;SameSite=Strict`;
+                showToast('✓ Saved');
+            } catch (e) {
+                showToast('⚠️ Save failed');
             }
-            return null;
         }
 
-        function showSaveIndicator() {
-            const indicator = document.getElementById('saveIndicator');
-            indicator.style.display = 'block';
+        function loadData() {
+            try {
+                const cookies = document.cookie.split(';');
+                for (let cookie of cookies) {
+                    const [name, value] = cookie.trim().split('=');
+                    if (name === 'expenseData') {
+                        transactions = JSON.parse(decodeURIComponent(value));
+                        return;
+                    }
+                }
+            } catch (e) {
+                transactions = [];
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.style.display = 'flex';
             setTimeout(() => {
-                indicator.style.display = 'none';
+                toast.style.display = 'none';
             }, 2000);
         }
 
@@ -456,8 +548,13 @@ WJXbGtaR3hsSWlCbWFXeHNQU0ozYUdsMFpTSWdabTl1ZEMxemFYcGxQU0kyTUNJZ1ptOXVkQzEzWldsb
             const amount = parseFloat(document.getElementById('amount').value);
             const category = document.getElementById('category').value;
 
-            if (!desc || !amount || amount <= 0) {
-                alert('Please enter valid description and amount!');
+            if (!desc) {
+                showToast('⚠️ Add description');
+                return;
+            }
+
+            if (!amount || amount <= 0) {
+                showToast('⚠️ Enter valid amount');
                 return;
             }
 
@@ -467,7 +564,12 @@ WJXbGtaR3hsSWlCbWFXeHNQU0ozYUdsMFpTSWdabTl1ZEMxemFYcGxQU0kyTUNJZ1ptOXVkQzEzWldsb
                 amount: amount,
                 category: category,
                 type: type,
-                date: new Date().toLocaleString()
+                date: new Date().toLocaleString('en-IN', { 
+                    day: '2-digit', 
+                    month: 'short', 
+                    hour: '2-digit', 
+                    minute: '2-digit' 
+                })
             };
 
             transactions.unshift(transaction);
@@ -477,13 +579,15 @@ WJXbGtaR3hsSWlCbWFXeHNQU0ozYUdsMFpTSWdabTl1ZEMxemFYcGxQU0kyTUNJZ1ptOXVkQzEzWldsb
             
             saveData();
             updateUI();
+            showToast(type === 'income' ? '💚 Income added' : '💸 Expense added');
         }
 
         function deleteTransaction(id) {
-            if (confirm('Are you sure you want to delete this transaction?')) {
+            if (confirm('Delete this transaction?')) {
                 transactions = transactions.filter(t => t.id !== id);
                 saveData();
                 updateUI();
+                showToast('🗑️ Deleted');
             }
         }
 
@@ -505,7 +609,12 @@ WJXbGtaR3hsSWlCbWFXeHNQU0ozYUdsMFpTSWdabTl1ZEMxemFYcGxQU0kyTUNJZ1ptOXVkQzEzWldsb
                 : transactions.filter(t => t.type === currentFilter);
 
             if (filtered.length === 0) {
-                list.innerHTML = '<div class="empty-state">No transactions to display.</div>';
+                list.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📝</div>
+                        <p>${currentFilter === 'all' ? 'No transactions yet' : `No ${currentFilter} transactions`}</p>
+                    </div>
+                `;
                 return;
             }
 
@@ -515,10 +624,12 @@ WJXbGtaR3hsSWlCbWFXeHNQU0ozYUdsMFpTSWdabTl1ZEMxemFYcGxQU0kyTUNJZ1ptOXVkQzEzWldsb
                         <div class="transaction-desc">${t.description}</div>
                         <div class="transaction-category">${t.category} • ${t.date}</div>
                     </div>
-                    <div class="transaction-amount ${t.type}">
-                        ${t.type === 'income' ? '+' : '-'}₹${t.amount.toFixed(2)}
+                    <div class="transaction-right">
+                        <div class="transaction-amount ${t.type}">
+                            ${t.type === 'income' ? '+' : '-'}₹${t.amount.toFixed(0)}
+                        </div>
+                        <button class="delete-btn" onclick="deleteTransaction(${t.id})">×</button>
                     </div>
-                    <button class="delete-btn" onclick="deleteTransaction(${t.id})">×</button>
                 </div>
             `).join('');
         }
@@ -534,9 +645,9 @@ WJXbGtaR3hsSWlCbWFXeHNQU0ozYUdsMFpTSWdabTl1ZEMxemFYcGxQU0kyTUNJZ1ptOXVkQzEzWldsb
             
             const balance = income - expense;
 
-            document.getElementById('totalBalance').textContent = `₹${balance.toFixed(2)}`;
-            document.getElementById('totalIncome').textContent = `₹${income.toFixed(2)}`;
-            document.getElementById('totalExpense').textContent = `₹${expense.toFixed(2)}`;
+            document.getElementById('totalBalance').textContent = `₹${balance.toFixed(0)}`;
+            document.getElementById('totalIncome').textContent = `₹${income.toFixed(0)}`;
+            document.getElementById('totalExpense').textContent = `₹${expense.toFixed(0)}`;
         }
 
         function updateUI() {
@@ -546,7 +657,7 @@ WJXbGtaR3hsSWlCbWFXeHNQU0ozYUdsMFpTSWdabTl1ZEMxemFYcGxQU0kyTUNJZ1ptOXVkQzEzWldsb
 
         function exportData() {
             if (transactions.length === 0) {
-                alert('No transactions to export!');
+                showToast('⚠️ No data to export');
                 return;
             }
 
@@ -556,31 +667,42 @@ WJXbGtaR3hsSWlCbWFXeHNQU0ozYUdsMFpTSWdabTl1ZEMxemFYcGxQU0kyTUNJZ1ptOXVkQzEzWldsb
             });
 
             const blob = new Blob([csv], { type: 'text/csv' });
-            const url = window.URL.createObjectURL(blob);
+            const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
             a.download = `expenses_${new Date().toISOString().split('T')[0]}.csv`;
             a.click();
-            window.URL.revokeObjectURL(url);
+            URL.revokeObjectURL(url);
+            showToast('📊 Exported');
         }
 
-        // PWA Install functionality
+        // PWA Installation
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
-            document.getElementById('installPrompt').style.display = 'flex';
+            document.getElementById('installBanner').style.display = 'flex';
         });
 
         function installApp() {
+            const banner = document.getElementById('installBanner');
             if (deferredPrompt) {
                 deferredPrompt.prompt();
-                deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') {
-                        document.getElementById('installPrompt').style.display = 'none';
+                deferredPrompt.userChoice.then((result) => {
+                    if (result.outcome === 'accepted') {
+                        showToast('✓ App installed!');
+                        banner.style.display = 'none';
                     }
                     deferredPrompt = null;
                 });
+            } else {
+                // For iOS or browsers that don't support install
+                showToast('📱 Use browser menu to add to home screen');
             }
+        }
+
+        // Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('data:text/javascript;base64,c2VsZi5hZGRFdmVudExpc3RlbmVyKCdpbnN0YWxsJywgZnVuY3Rpb24oZSkgewogIGUud2FpdFVudGlsKAogICAgY2FjaGVzLm9wZW4oJ2V4cGVuc2UtdHJhY2tlcicpLnRoZW4oZnVuY3Rpb24oY2FjaGUpIHsKICAgICAgcmV0dXJuIGNhY2hlLmFkZEFsbChbJy8nXSk7CiAgICB9KQogICk7Cn0pOwoKc2VsZi5hZGRFdmVudExpc3RlbmVyKCdmZXRjaCcsIGZ1bmN0aW9uKGUpIHsKICBlLnJlc3BvbmRXaXRoKAogICAgY2FjaGVzLm1hdGNoKGUucmVxdWVzdCkudGhlbihmdW5jdGlvbihyZXNwb25zZSkgewogICAgICByZXR1cm4gcmVzcG9uc2UgfHwgZmV0Y2goZS5yZXF1ZXN0KTsKICAgIH0pCiAgKTsKfSk7');
         }
 
         // Initialize
