@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#dc2626">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Bhalu's Expenses">
+    <meta name="apple-mobile-web-app-title" content="Expense Tracker">
     <meta name="description" content="Track your expenses and income easily">
     <title>Expense Tracker</title>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='75' font-size='80'%3E💸%3C/text%3E%3C/svg%3E">
@@ -548,7 +548,7 @@
 
         <div class="calendar-container">
             <div class="calendar-header">
-                <h2>Calendar</h2>
+                <h2> Calendar</h2>
                 <div class="month-nav">
                     <button onclick="previousMonth()">◀</button>
                     <span class="current-month" id="currentMonth"></span>
@@ -583,12 +583,12 @@
                     <option value="💡 Bills">💡 Bills</option>
                     <option value="💼 Salary">💼 Salary</option>
                     <option value="🏥 Health">🏥 Health</option>
-                    <option value="📚 Investment">📚 Investment</option>
+                    <option value="📚 Investment">📚 Education</option>
                     <option value="✨ Other">✨ Other</option>
                 </select>
             </div>
             <div class="form-buttons">
-                <button class="btn btn-income" onclick="addTransaction('income')">💚 Add Income</button>
+                <button class="btn btn-income" onclick="addTransaction('income')">💰 Add Income</button>
                 <button class="btn btn-expense" onclick="addTransaction('expense')">💸 Add Expense</button>
             </div>
         </div>
@@ -614,11 +614,11 @@
         let currentDate = new Date();
         let selectedDate = null;
 
-        // Data persistence
+        // Data persistence using localStorage (unlimited storage, no expiration)
         function saveData() {
             try {
                 const data = JSON.stringify(transactions);
-                document.cookie = `expenseData=${encodeURIComponent(data)};max-age=31536000;path=/;SameSite=Strict`;
+                localStorage.setItem('expenseData', data);
                 showToast('✓ Saved');
             } catch (e) {
                 showToast('⚠️ Save failed');
@@ -627,13 +627,11 @@
 
         function loadData() {
             try {
-                const cookies = document.cookie.split(';');
-                for (let cookie of cookies) {
-                    const [name, value] = cookie.trim().split('=');
-                    if (name === 'expenseData') {
-                        transactions = JSON.parse(decodeURIComponent(value));
-                        return;
-                    }
+                const data = localStorage.getItem('expenseData');
+                if (data) {
+                    transactions = JSON.parse(data);
+                } else {
+                    transactions = [];
                 }
             } catch (e) {
                 transactions = [];
@@ -940,4 +938,3 @@
     </script>
 </body>
 </html>
-
